@@ -1,28 +1,42 @@
-name: ci/cd pipeline to deploy to tomcat
+name: Build and Deploy train-ticket-reservation
+
 on:
- push:
-   branches: master
+  push:
+    branches: master
 jobs:
- build-deploy:
-  runs-on: ubuntu-latest
-  steps:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: checkout code
         uses: actions/checkout@v3
-      - name: set-up jdk
+
+      - name: set -up jdk
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'  
-      - name: maven validate
-        run: mvn validate 
-      - name: maven compile
+          java-version: '17'
+
+      - name: validate with Maven
+        run: mvn validate
+
+      - name: compile the maven
         run: mvn compile
-      - name: maven test
+
+      - name: test the maven
         run: mvn test
-      - name: maven package
+
+      
+      - name: package with maven
         run: mvn package
-      - name: varify war file
-        run: ls -lh target/
+
+      - name: deploy war to tomcat
+        run: |
+                curl -v -u ${{ secrets.TOMCAT_USER }}:${{ secrets.TOMCAT_PASSWORD }} \
+                  -T target/TrainBook-1.0.0-SNAPSHOT.war \
+                  "${{ secrets.TOMCAT_HOST }}:8080/manager/text/deploy?path=/TrainBook&update=true"
+
+
       
 
         
