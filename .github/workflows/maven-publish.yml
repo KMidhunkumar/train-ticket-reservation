@@ -42,11 +42,12 @@ jobs:
           name: war-file
           path: ${{ env.WAR_FILE }}
 
+      
       - name: SonarQube Analysis
-        run: |
-         mvn sonar:sonar \
-         -Dsonar.projectKey=train-ticket-reservation \
-         -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
-         -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+             -Dsonar.projectKey=train-ticket-reservation \
+             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
 
      
