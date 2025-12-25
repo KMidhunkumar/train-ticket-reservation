@@ -23,12 +23,21 @@ jobs:
       - name: 🔨 Build & Test with Maven
         run: mvn clean verify
 
-      - name: SonarQube Analysis
+      - name: 🔍 SonarQube Analysis
         run: |
          mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-         -Dsonar.projectKey=train-ticket-reservation \
-         -Dsonar.host.url=http://ec2-54-177-145-208.us-west-1.compute.amazonaws.com:9002 \
-         -Dsonar.login=${{ secrets.SONAR_TOKEN }}}}
+             -Dsonar.projectKey=train-ticket-reservation \
+             -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+      - name: 🗂 Find WAR file
+        run: echo "WAR_FILE=$(ls target/*.war | head -n 1)" >> $GITHUB_ENV
+
+      - name: ⬆ Upload WAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: war-file
+          path: ${{ env.WAR_FILE }}
 
       
 
