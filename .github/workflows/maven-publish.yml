@@ -27,7 +27,7 @@ jobs:
         run: |
          mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
          -Dsonar.projectKey=train-ticket-reservation \
-         -Dsonar.host.url=http://54.151.124.52:9000 \
+         -Dsonar.host.url=http://ec2-54-177-145-208.us-west-1.compute.amazonaws.com:9002 \
          -Dsonar.login=${{ secrets.SONAR_TOKEN }}}}
 
       
