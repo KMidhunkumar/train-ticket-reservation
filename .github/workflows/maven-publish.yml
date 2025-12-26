@@ -1,5 +1,4 @@
 name: Build and Deploy train-ticket-reservation
-
 on:
   push:
     branches:
@@ -20,10 +19,10 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: 🔨 Build & Test with Maven
+      - name: Build & Test with Maven
         run: mvn clean verify
 
-      - name: 🔍 SonarQube Analysis
+      - name: SonarQube Analysis
         run: |
          mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
              -Dsonar.projectKey=train-ticket-reservation \
