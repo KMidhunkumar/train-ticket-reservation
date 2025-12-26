@@ -88,6 +88,7 @@ jobs:
             -DskipTests \
             -DaltDeploymentRepository=nexus::default::${{ secrets.NEXUS_REPO_URL }}
 
+      # ✅ Upload ONCE
       - name: 📤 Upload WAR Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -101,7 +102,7 @@ jobs:
     needs: nexus
 
     steps:
-      - name: 📥 Download WAR
+      - name: 📥 Download WAR Artifact
         uses: actions/download-artifact@v4
         with:
           name: war-file
@@ -117,11 +118,6 @@ jobs:
 
           curl -u "$USER:$PASS" "$URL/list"
 
-          curl --fail -u "$USER:$PASS" -T "$WAR_FILE" \
-            "$URL/deploy?path=/train-ticket-reservation&update=true"
-
-
-          echo "📌 Deploying WAR file..."
           curl --fail -u "$USER:$PASS" -T "$WAR_FILE" \
             "$URL/deploy?path=/train-ticket-reservation&update=true"
 
