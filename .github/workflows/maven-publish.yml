@@ -21,6 +21,23 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+      - name: validate with Maven
+        run: mvn validate
+
+      - name: compile the maven
+        run: mvn compile
+
+      - name: test the maven
+        run: mvn test
+
+      
+      - name: package with maven
+        run: mvn package
+      - name: Upload WAR Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: war-file
+          path: target/*.war
 
       - name: 🔍 Run SonarQube Scan
         run: |
